@@ -1,0 +1,63 @@
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <title>Login-Administor</title>
+    <link rel="stylesheet" href="/end/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css"></head>
+
+  <body>
+    <section class="login">
+      <div class="titulo">Administrator</div>
+      <form id="form" method="post" enctype="application/x-www-form-urlencoded">
+        <input type="text" name="username" required title="Username required" placeholder="Username" data-icon="U">
+        <input type="password" name="pwd" required title="Password required" placeholder="Password" data-icon="x">
+        <input type="button" class="enviar" value="submit" /></form>
+    </section>
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        function submitD() {
+
+          $.ajax({
+            url: 'login.php',
+            type: 'post',
+            data: $('#form').serialize(),
+            dataType: 'json',
+            timeout: 1000,
+            // cache: false,
+            beforeSend: LoadFunction,
+            //加载执行方法
+            error: erryFunction,
+            //错误执行方法
+            success: function(json) {
+              if (json.result == 1) {
+                window.location.href = "index.html";
+              } else {
+                alert("login failed");
+                //location.reload();
+              }
+
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        alert(XMLHttpRequest.status);
+                        alert(XMLHttpRequest.readyState);
+                        alert(textStatus);
+                    }
+             //成功执行方法
+          })
+          function LoadFunction() {
+            //alert(0);
+          }
+          function erryFunction() {
+            //alert(1);
+          }
+        }
+        $("#form input[type='button']").click(submitD);
+
+      });
+    </script>
+  </body>
+
+</html>

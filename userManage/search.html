@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Login-Administor</title>
+	<link rel="stylesheet" type="text/css" href="/end/css/style.css">
+	<link rel="stylesheet" href="/end/css/bootstrap.min.css">
+	<script src="/end/js/jquery.min.js"></script>
+	<script src="/end/js/bootstrap.min.js"></script>
+</head>
+<body>
+		<div id="title">
+			<h2><B>Search</B></h2>
+			<div id="buleDiv">you can search the user by username/Imei/phone number</div>
+		</div>
+		<div id="box-res" class="col-md-12 column" style="margin:5% 0 0 0%;">
+			<div class="form-group">
+				<form name="form" id="form" method="post">
+
+        <div class="col-sm-4" style="width:20%;float:left;">
+            <select id="usertype" name="usertype" class="selectpicker show-tick form-control"  data-live-search="false">
+                    <option value="username">Username</option>
+                    <option value="imei">Imei</option>
+                    <option value="phone_number">Phone Number</option>
+            </select>
+        </div>
+
+        <div style="float:left;width:50%">
+        	<input name="value" style="text-align:center;"  type="text" class="form-control" id="searchBox" />
+        </div>
+
+        <div>
+ 			<input style="float:left;margin-left:1%;width:18%;" type="button" class="btn btn-default" value="search" />
+        </div>
+
+        </form>
+   	</div>
+
+	</div>
+<script type="text/javascript">
+      $(document).ready(function() {
+        function submitD() {
+          $.ajax({
+            url: 'search.php',
+            type: 'post',
+            data: $('#form').serialize(),
+            dataType: 'json',
+            timeout: 1000,
+            beforeSend: LoadFunction,
+            //加载执行方法
+						success:function(data){
+							console.log(data);
+							try{
+							var html=' ';
+							var per_html=" ";
+							html += "<tr><td><B>Property</B></td><td><B>Value</B></td></tr>";
+							var kid_table = new Array();
+							 $.each(data,function(i,item){
+								 if (item.constructor === Array) {
+
+									 $.each(item,function(j,item){
+										 kid_table[j]=" ";
+										 $.each(item,function(k,value){
+											  kid_table[j] += '<tr><td>'+k+'</td><td>'+value+'</td></tr>';
+												console.log(kid_table[j]);
+											 //console.log(k+":"+value);
+										 })
+									 })
+
+								 }
+								 else {
+									 html += '<tr><td>'+i+'</td><td>'+item+'</td></tr>';
+								 	//console.log(i+':'+item);
+								 }
+							});
+							per_html += "<table id='status' class='table table-bordered table-striped'>"+html+'</table>';
+							for (var i = 0; i < kid_table.length; i++) {
+								kid_table[i] = "<table class='table table-bordered table-striped'>"+kid_table[i]+"</table>";
+								per_html += "<h3><B>Kid-"+(i+1)+"</B></h3>"+kid_table[i];
+							}
+							 $("#box-res").html(per_html);
+							 $("#box-res").css("padding","0 13% 0 3%");
+							}catch(e){
+							alert("filed");
+							return;
+							}
+						},
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        //alert(XMLHttpRequest.status);
+                        //alert(XMLHttpRequest.readyState);
+                        //alert(textStatus);
+                        console.log($('#form').serialize());
+                    }
+          })
+          function LoadFunction() {
+            //alert(0);
+          }
+        }
+        $("#form input[type='button']").click(submitD);
+
+      });</script>
+</body>
+</html>

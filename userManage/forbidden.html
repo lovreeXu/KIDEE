@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Login-Administor</title>
+	<link rel="stylesheet" type="text/css" href="/end/css/style.css">
+	<link rel="stylesheet" href="/end/css/bootstrap.min.css">
+	<script src="/end/js/jquery.min.js"></script>
+	<script src="/end/js/bootstrap.min.js"></script>
+</head>
+<body>
+		<div id="title">
+			<h2><B>Forbidden</B></h2>
+			<div id="buleDiv">you can forbidden the user by pid</div>
+		</div>
+		<div class="col-md-12 column" style="margin:0 0 0 3%;padding-right:13%;">
+			<form name="form" id="form" role="form" style="text-align:center;">
+				<div class="form-group">
+					 <label for="exampleInputEmail1">Pid</label>
+					 <input name="pid" style="text-align:center;"  class="form-control" id="pid" required/>
+				</div>
+				<div class="form-group" style="padding-top:4%;">
+				<input type="button" class="btn btn-default" style="width:100%;" value="FORBIDDEN" />
+				</div>
+			</form>
+		</div>
+<script type="text/javascript">
+      $(document).ready(function() {
+        function submitD() {
+          $.ajax({
+            url: 'disable_user.php',
+            type: 'post',
+            data: $('#form').serialize(),
+            dataType: 'json',
+            timeout: 1000,
+            beforeSend: LoadFunction,
+            //加载执行方法
+            success: function(json) {
+              if(json.result==1){
+                alert("success");
+              }else {
+                alert("Failed");
+              }
+              console.log(json);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        //alert(XMLHttpRequest.status);
+                        //alert(XMLHttpRequest.readyState);
+                        //alert(textStatus);
+                        console.log($('#form').serialize());
+                    }
+          })
+          function LoadFunction() {
+            //alert(0);
+          }
+        }
+        $("#form input[type='button']").click(submitD);
+
+      });</script>
+</body>
+</html>

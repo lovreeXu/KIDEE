@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1" />
+	<title>addAdministrator</title>
+	<link rel="stylesheet" type="text/css" href="/end/css/style.css">
+	<link rel="stylesheet" href="/end/css/bootstrap.min.css">
+	<script src="/end/js/jquery.min.js"></script>
+	<script src="/end/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div id="title">
+		<h2><B>Add</B></h2>
+		<div id="buleDiv">you can add administrator account here</div>
+	</div>
+	<div class="col-md-12 column" style="padding:0 13% 0 3%;">
+		<form name="form" id="form" role="form" style="text-align:center;">
+			<div class="form-group">
+				 <label for="exampleInputEmail1">Username</label>
+				 <input name="username" style="text-align:center;"  class="form-control" id="exampleInputEmail1" required/>
+			</div>
+			<div class="form-group">
+				 <label for="exampleInputPassword1">Password</label>
+				 <input name="pwd" style="text-align:center;"  type="password" class="form-control" id="exampleInputPassword1" required/>
+			</div>
+			<div class="form-group" style="padding-top:5%;">
+			<input type="button" class="btn btn-default" style="width:100%;" value="ADD" />
+			</div>
+		</form>
+	</div>
+<script type="text/javascript">
+      $(document).ready(function() {
+        function submitD() {
+          $.ajax({
+            url: 'addAdministrator.php',
+            type: 'post',
+            data: $('#form').serialize(),
+            dataType: 'json',
+            timeout: 1000,
+            beforeSend: LoadFunction,
+            //加载执行方法
+            success: function(json) {
+            	console.log(json);
+              if (json.result == 1) {
+                alert("Added Successfully");
+              } else {
+                alert("Failed To Add The Administrator");
+              }
+
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        //alert(XMLHttpRequest.status);
+                        //alert(XMLHttpRequest.readyState);
+                        //alert(textStatus);
+                        console.log(json);
+                    }
+          })
+          function LoadFunction() {
+            //alert(0);
+          }
+        }
+        $("#form input[type='button']").click(submitD);
+
+      });</script>
+</body>
+</html>
